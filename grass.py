@@ -12,6 +12,6 @@ class Grass:
         self.image.draw(1200, 30)
 
     def get_bb(self):
-        # fill here
+        return 0,0,1600-1,50
         pass
 

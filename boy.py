@@ -153,6 +153,7 @@ class Boy:
     def draw(self):
         self.state_machine.draw()
         self.font.draw(self.x-10, self.y + 50, f'{self.ball_count:02d}', (255, 255, 0))
+        draw_rectangle(*self.get_bb())# *로 튜플 분할
 
     def fire_ball(self):
         if self.ball_count > 0:
@@ -161,7 +162,7 @@ class Boy:
             game_world.add_object(ball)
 
     def get_bb(self):
-        # fill here
+        return self.x - 20, self.y - 50, self.x + 20, self.y + 50
         pass
 
     def handle_collision(self, group, other):

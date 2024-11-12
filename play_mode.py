@@ -44,7 +44,11 @@ def finish():
 
 def update():
     game_world.update()
-    # fill here
+    for ball in balls.copy():# balls에서 ball을 읽기만 해야된다. 삭제시 문제가 발생한다.
+        if game_world.collide(boy, ball):
+            boy.ball_count += 1
+            game_world.remove_object(ball)
+            balls.remove(ball)
 
 
 def draw():
