@@ -27,7 +27,8 @@ def space_down(e):
 def time_out(e):
     return e[0] == 'TIME_OUT'
 
-
+def Die(e):
+    return e[0] == 'DIE'
 
 
 
