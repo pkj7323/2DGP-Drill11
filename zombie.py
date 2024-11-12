@@ -38,9 +38,9 @@ class Dead:
     @staticmethod
     def draw(zombie):
         if zombie.dir < 0:
-            Zombie.images['Dead'][int(zombie.frame)].composite_draw(0, 'h', zombie.x, zombie.y, 200, 200)
+            Zombie.images['Dead'][int(zombie.frame)].composite_draw(0, 'h', zombie.x, zombie.y, zombie.size, zombie.size)
         else:
-            Zombie.images['Dead'][int(zombie.frame)].draw(zombie.x, zombie.y, 200, 200)
+            Zombie.images['Dead'][int(zombie.frame)].draw(zombie.x, zombie.y, zombie.size, zombie.size)
 
         if int(zombie.frame) == FRAMES_PER_ACTION_DEAD - 1:
             game_world.remove_object(zombie)
@@ -68,9 +68,9 @@ class Walk:
     @staticmethod
     def draw(zombie):
         if zombie.dir < 0:
-            Zombie.images['Walk'][int(zombie.frame)].composite_draw(0, 'h', zombie.x, zombie.y, 200, 200)
+            Zombie.images['Walk'][int(zombie.frame)].composite_draw(0, 'h', zombie.x, zombie.y, zombie.size, zombie.size)
         else:
-            Zombie.images['Walk'][int(zombie.frame)].draw(zombie.x, zombie.y, 200, 200)
+            Zombie.images['Walk'][int(zombie.frame)].draw(zombie.x, zombie.y, zombie.size, zombie.size)
 
 
 
@@ -98,7 +98,8 @@ class Zombie:
         self.load_images()
         self.frame = random.randint(0, 9)
         self.dir = random.choice([-1,1])
-        self.heath = 2
+        self.heath = 1
+        self.size = 200
         self.state_machine = StateMachine(self)
         self.state_machine.start(Walk)
         self.state_machine.set_transitions(
@@ -123,11 +124,13 @@ class Zombie:
         pass
 
     def get_bb(self):
-        return self.x - 80, self.y - 100, self.x + 80, self.y + 100
+        return self.x - self.size/2, self.y - self.size/2 , self.x + self.size/2, self.y + self.size/2
 
     def handle_collision(self, group, other):
         if group == 'zombie:shot_ball':
             if self.heath > 0:
                 self.heath -= 1
+                self.size /= 2
+                self.x ,self.y = self.x - self.size/2, self.y - self.size/2
             else:
                 self.state_machine.add_event(('DIE',0))

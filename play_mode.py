@@ -35,6 +35,7 @@ def init():
 
     #충동 대상들을 등록해야함
     game_world.add_collision_pair('boy:ball', boy, None)
+    game_world.add_collision_pair('boy:zombie', boy, None)
     for ball in balls:
         game_world.add_collision_pair('boy:ball', None, ball)
     # { 'boy:ball' : [ [boy] , [ball1,ball2,...,ball30] ] }
@@ -42,7 +43,7 @@ def init():
     game_world.add_objects(zombies, 1)
     for zombie in zombies:
         game_world.add_collision_pair('zombie:shot_ball', zombie, None)
-
+        game_world.add_collision_pair('boy:zombie', None, zombie)
 
 
 
