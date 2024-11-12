@@ -166,5 +166,7 @@ class Boy:
         pass
 
     def handle_collision(self, group, other):
-        # fill here
-        pass
+        if group == 'boy:ball':
+            self.ball_count += 1
+            # 여기서 볼을 지울것 인지 볼에서 지울것인지 두가지 경우가 있음
+            # 그런데 없애는거는 자기가 스스로 없애는 것이 좋음

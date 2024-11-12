@@ -38,11 +38,23 @@ def render():
         for o in layer:
             o.draw()
 
+
+def remove_collision_object(o):
+    for pairs in collision_pairs.values():
+        if o in pairs[0]:
+            pairs[0].remove(o)
+        if o in pairs[1]:
+            pairs[1].remove(o)
+
+
 def remove_object(o):
     for layer in world:
         if o in layer:
-            layer.remove(o)
+            layer.remove(o)# 게임 월드에서만 날리면 안됨 충돌 시스템에서도 날려야됨
+            remove_collision_object(o)
+            del o # 완전히 메모리에서도 삭제
             return
+
     raise ValueError('Cannot delete non existing object')
 
 

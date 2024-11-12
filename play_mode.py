@@ -24,7 +24,6 @@ def handle_events():
 
 def init():
     global boy
-    global balls
     balls = [Ball(random.randint(100, 1600 - 100), 60, 0) for _ in range(30)]
     game_world.add_objects(balls,1) # 게임월드에 추가됨
 
@@ -35,10 +34,16 @@ def init():
     game_world.add_object(boy, 1)
 
     #충동 대상들을 등록해야함
-    add_collision_pair('boy:ball', boy, None)
+    game_world.add_collision_pair('boy:ball', boy, None)
     for ball in balls:
-        add_collision_pair('boy:ball', None, ball)
+        game_world.add_collision_pair('boy:ball', None, ball)
     # { 'boy:ball' : [ [boy] , [ball1,ball2,...,ball30] ] }
+    zombies = [Zombie() for _ in range(10)]
+    game_world.add_objects(zombies, 1)
+    for zombie in zombies:
+        game_world.add_collision_pair('zombie:ball', zombie, None)
+    for ball in balls:
+        game_world.add_collision_pair('zombie:ball', None, ball)
 
 
 
