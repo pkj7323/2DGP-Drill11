@@ -4,6 +4,7 @@ from pico2d import *
 import game_framework
 
 import game_world
+from game_world import add_collision_pair
 from grass import Grass
 from boy import Boy
 from ball import Ball
@@ -25,14 +26,19 @@ def init():
     global boy
     global balls
     balls = [Ball(random.randint(100, 1600 - 100), 60, 0) for _ in range(30)]
-    game_world.add_objects(balls,1)
+    game_world.add_objects(balls,1) # 게임월드에 추가됨
+
     grass = Grass()
     game_world.add_object(grass, 0)
 
     boy = Boy()
     game_world.add_object(boy, 1)
 
-    # fill here
+    #충동 대상들을 등록해야함
+    add_collision_pair('boy:ball', boy, None)
+    for ball in balls:
+        add_collision_pair('boy:ball', None, ball)
+    # { 'boy:ball' : [ [boy] , [ball1,ball2,...,ball30] ] }
 
 
 
@@ -44,11 +50,8 @@ def finish():
 
 def update():
     game_world.update()
-    for ball in balls.copy():# balls에서 ball을 읽기만 해야된다. 삭제시 문제가 발생한다.
-        if game_world.collide(boy, ball):
-            boy.ball_count += 1
-            game_world.remove_object(ball)
-            balls.remove(ball)
+    game_world.handle_collision()
+
 
 
 def draw():
